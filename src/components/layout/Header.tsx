@@ -130,7 +130,7 @@ const Nav = styled.nav`
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-const NavLink = styled(motion(Link))`
+const NavLink = styled(motion.create(Link))`
   color: ${({ theme }) => theme.colors.textSecondary};
   text-decoration: none;
   font-size: ${({ theme }) => theme.typography.fontSize.body};

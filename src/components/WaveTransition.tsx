@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 interface WaveTransitionProps {
   isOpen: boolean;
-  onMid?: () => void;
   onDone?: () => void;
   colors?: {
     deep: string;
@@ -69,7 +68,6 @@ const noise = (() => {
 
 const WaveTransition: React.FC<WaveTransitionProps> = ({
   isOpen,
-  onMid,
   onDone,
   colors = {
     deep: '#023436',
@@ -84,9 +82,9 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const progressRef = useRef(0);
-  const midTriggeredRef = useRef(false);
+  const mountedRef = useRef(false);
 
-  const drawWave = (
+  const drawWave = useCallback((
     ctx: CanvasRenderingContext2D,
     yBase: number,
     amplitude: number,
@@ -102,7 +100,6 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     ctx.moveTo(0, height);
 
     for (let x = 0; x <= width; x += 2) {
-      // Combine multiple noise layers for more complex waves
       const noise1 = noise(x * 0.01 + offset, time * 0.5) * amplitude;
       const noise2 = noise(x * 0.02 + offset * 2, time * 0.3) * (amplitude * 0.5);
       const noise3 = noise(x * 0.005 + offset * 0.5, time * 0.7) * (amplitude * 0.25);
@@ -116,28 +113,27 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     ctx.closePath();
 
     if (isFoam) {
-      // Foam effect with gradient
       const gradient = ctx.createLinearGradient(0, yBase - amplitude, 0, yBase + amplitude);
       gradient.addColorStop(0, `rgba(255, 255, 255, ${translucency})`);
       gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
       ctx.fillStyle = gradient;
     } else {
-      // Depth-based shading
       const gradient = ctx.createLinearGradient(0, yBase - amplitude, 0, yBase + amplitude);
       gradient.addColorStop(0, color);
       gradient.addColorStop(1, colors.deep);
       ctx.fillStyle = gradient;
     }
 
-    // Add glow effect
     ctx.shadowColor = isFoam ? colors.foam : color;
     ctx.shadowBlur = isFoam ? 20 : 10;
     ctx.globalAlpha = isFoam ? translucency : 0.9;
     ctx.fill();
     ctx.restore();
-  };
+  }, [colors, speed, translucency]);
 
-  const animate = () => {
+  const animate = useCallback(() => {
+    if (!mountedRef.current) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -147,60 +143,32 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     const { width, height } = canvas;
     ctx.clearRect(0, 0, width, height);
 
-    // Calculate progress
-    const duration = 1.1; // seconds
+    const duration = 1.4;
     const fps = 60;
     const totalFrames = Math.round(duration * fps);
     progressRef.current = Math.min(1, progressRef.current + 1 / totalFrames);
 
-    // Easing function for smooth animation
     const ease = progressRef.current < 0.5
-      ? 2 * progressRef.current * progressRef.current
-      : -1 + (4 - 2 * progressRef.current) * progressRef.current;
+      ? 4 * progressRef.current * progressRef.current * progressRef.current
+      : 1 - Math.pow(-2 * progressRef.current + 2, 3) / 2;
 
-    const yBase = height - (height * 1.1 * ease);
+    const yBase = height - (height * 1.2 * ease);
 
-    // Draw multiple wave layers
-    drawWave(ctx, yBase + 40, 32 * intensity, colors.deep, 0.2);
-    drawWave(ctx, yBase + 20, 24 * intensity, colors.surface, 0.5);
-    drawWave(ctx, yBase + 10, 18 * intensity, colors.highlight, 1.1);
-    drawWave(ctx, yBase, 12 * intensity, colors.foam, 2.2, true);
-
-    // Trigger mid callback
-    if (!midTriggeredRef.current && progressRef.current > 0.45) {
-      midTriggeredRef.current = true;
-      onMid?.();
-    }
+    drawWave(ctx, yBase + 45, 35 * intensity, colors.deep, 0.15);
+    drawWave(ctx, yBase + 25, 28 * intensity, colors.surface, 0.4);
+    drawWave(ctx, yBase + 12, 20 * intensity, colors.highlight, 0.9);
+    drawWave(ctx, yBase, 15 * intensity, colors.foam, 1.8, true);
 
     if (progressRef.current < 1) {
       animationRef.current = requestAnimationFrame(animate);
     } else {
-      // Animate wave out
-      progressRef.current = 0;
-      midTriggeredRef.current = false;
-      const animateOut = () => {
-        progressRef.current = Math.min(1, progressRef.current + 1 / totalFrames);
-        const outEase = 1 - Math.pow(1 - progressRef.current, 2);
-        const yBaseOut = height * (1 - outEase) - 40 * outEase;
-
-        ctx.clearRect(0, 0, width, height);
-        drawWave(ctx, yBaseOut + 40, 32 * intensity, colors.deep, 0.2 + 1.5);
-        drawWave(ctx, yBaseOut + 20, 24 * intensity, colors.surface, 0.5 + 1.5);
-        drawWave(ctx, yBaseOut + 10, 18 * intensity, colors.highlight, 1.1 + 1.5);
-        drawWave(ctx, yBaseOut, 12 * intensity, colors.foam, 2.2 + 1.5, true);
-
-        if (progressRef.current < 1) {
-          animationRef.current = requestAnimationFrame(animateOut);
-        } else {
-          ctx.clearRect(0, 0, width, height);
-          onDone?.();
-        }
-      };
-      setTimeout(animateOut, 120);
+      ctx.clearRect(0, 0, width, height);
+      onDone?.();
     }
-  };
+  }, [colors, intensity, onDone, drawWave]);
 
   useEffect(() => {
+    mountedRef.current = true;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -214,17 +182,19 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
 
     if (isOpen) {
       progressRef.current = 0;
-      midTriggeredRef.current = false;
       animate();
     }
 
     return () => {
+      mountedRef.current = false;
       window.removeEventListener('resize', resize);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isOpen, colors, speed, intensity, translucency]);
+  }, [isOpen, animate]);
+
+  if (!isOpen) return null;
 
   return <WaveCanvas ref={canvasRef} />;
 };
