@@ -3,65 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Cameron Sadusky</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>About - Your Name</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <a href="index.html" class="navbar-logo">Cameron S.</a>
-            <div class="navbar-links">
-                <a href="index.html">Home</a>
-                <a href="portfolio.html">Portfolio</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
+    <div class="page-transition"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>YourName</h1>
             </div>
-        </div>
-    </nav>
-
-    <main class="container">
-        <section class="about-content">
-            <h1 class="section-title fade-in">About Me</h1>
-            
-            <div class="fade-in">
-                <p>
-                    I'm a passionate software engineer with a deep love for creating innovative 
-                    digital experiences. My journey in technology began with a fascination for 
-                    how software can transform ideas into interactive realities.
-                </p>
-                <p>
-                    Specializing in game development, backend systems, and cutting-edge 
-                    technologies, I bring a creative and analytical approach to solving 
-                    complex technical challenges.
-                </p>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" class="social-link" target="_blank">
+                    <span class="icon">🐙</span>
+                </a>
+                <a href="https://yourusername.itch.io" class="social-link" target="_blank">
+                    <span class="icon">🎮</span>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank">
+                    <span class="icon">💼</span>
+                </a>
             </div>
+        </nav>
+    </header>
 
-            <div class="fade-in">
-                <h2 class="section-title">Key Skills</h2>
-                <div class="skills-section">
-                    <span class="skill-tag">Game Development</span>
-                    <span class="skill-tag">Backend Engineering</span>
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">Unity</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">Machine Learning</span>
-                    <span class="skill-tag">Blockchain</span>
-                    <span class="skill-tag">Networking</span>
+    <main class="main">
+        <section class="about-hero">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="page-title">About Me</h2>
+                    <p class="about-intro">
+                        I'm a passionate developer who bridges the gap between creative vision and technical execution. 
+                        With experience spanning game development, web applications, and interactive experiences, 
+                        I bring ideas to life through code.
+                    </p>
+                </div>
+                <div class="about-visual">
+                    <div class="profile-area">
+                        <div class="profile-placeholder">Your Photo</div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="fade-in">
-                <h2 class="section-title">Professional Background</h2>
-                <p>
-                    With a robust background in software engineering, I've worked on diverse 
-                    projects ranging from immersive game experiences to complex enterprise 
-                    solutions. My approach combines technical expertise with creative problem-solving.
-                </p>
-                <a href="/resume.pdf" download class="resume-btn">Download Resume</a>
+        <section class="skills-section">
+            <h3 class="section-title">Technical Skills</h3>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Frontend Development</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">CSS/SCSS</span>
+                        <span class="skill-tag">HTML5</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Backend & Databases</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MongoDB</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Game Development</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Unity</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">Game Design</span>
+                        <span class="skill-tag">3D Modeling</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Tools & Technologies</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-section">
+            <h3 class="section-title">My Journey</h3>
+            <div class="timeline">
+                <div class="timeline-item" onclick="showModal('journey1')">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>Started Coding</h4>
+                        <p>Discovered programming through game development</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="showModal('journey2')">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>First Web Project</h4>
+                        <p>Built my first interactive web application</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="showModal('journey3')">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>Professional Development</h4>
+                        <p>Expanded into full-stack development</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="showModal('journey4')">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h4>Current Focus</h4>
+                        <p>Creating immersive digital experiences</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
+
+    <!-- Modal System -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-content" id="modalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

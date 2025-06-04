@@ -3,81 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Cameron Sadusky</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Portfolio - Your Name</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <a href="index.html" class="navbar-logo">Cameron S.</a>
-            <div class="navbar-links">
-                <a href="index.html">Home</a>
-                <a href="portfolio.html">Portfolio</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
+    <div class="page-transition"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>YourName</h1>
             </div>
-        </div>
-    </nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="portfolio.html" class="nav-link active">Portfolio</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" class="social-link" target="_blank">
+                    <span class="icon">🐙</span>
+                </a>
+                <a href="https://yourusername.itch.io" class="social-link" target="_blank">
+                    <span class="icon">🎮</span>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank">
+                    <span class="icon">💼</span>
+                </a>
+            </div>
+        </nav>
+    </header>
 
-    <main class="container">
-        <h1 class="section-title text-center fade-in">My Projects</h1>
-        
+    <main class="main">
+        <section class="portfolio-hero">
+            <h2 class="page-title">My Work</h2>
+            <p class="portfolio-subtitle">A collection of projects that showcase my technical skills and creative vision</p>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterProjects('all')">All Projects</button>
+                <button class="filter-tab" onclick="filterProjects('games')">Games</button>
+                <button class="filter-tab" onclick="filterProjects('web')">Web Apps</button>
+                <button class="filter-tab" onclick="filterProjects('creative')">Creative Code</button>
+            </div>
+        </section>
+
         <section class="portfolio-grid">
-            <div class="project-card fade-in">
-                <img src="/api/placeholder/400/250" alt="Project 1" class="project-image">
-                <div class="project-content">
-                    <h3>Multiplayer Game Engine</h3>
-                    <p>Developed a robust multiplayer game framework with advanced networking capabilities.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">C#</span>
-                        <span class="tech-tag">Unity</span>
-                        <span class="tech-tag">Networking</span>
+            <!-- Game Projects -->
+            <div class="project-card games" onclick="showModal('game1')">
+                <div class="project-image">
+                    <div class="placeholder-image">Game Screenshot</div>
+                    <div class="project-overlay">
+                        <span class="project-type">Unity Game</span>
                     </div>
-            </div>
-
-            <div class="project-card fade-in">
-                <img src="/api/placeholder/400/250" alt="Project 2" class="project-image">
-                <div class="project-content">
-                    <h3>AI-Powered Analytics Platform</h3>
-                    <p>Created a comprehensive data analysis tool with machine learning integration.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">Flask</span>
+                </div>
+                <div class="project-info">
+                    <h3>Adventure Quest</h3>
+                    <p>2D platformer with puzzle elements and dynamic lighting system</p>
+                    <div class="project-tags">
+                        <span class="tag">Unity</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">2D</span>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in">
-                <img src="/api/placeholder/400/250" alt="Project 3" class="project-image">
-                <div class="project-content">
-                    <h3>Cross-Platform Mobile App</h3>
-                    <p>Developed a feature-rich mobile application with responsive design.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">React Native</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">Mobile Dev</span>
+            <div class="project-card games" onclick="showModal('game2')">
+                <div class="project-image">
+                    <div class="placeholder-image">Game Screenshot</div>
+                    <div class="project-overlay">
+                        <span class="project-type">Mobile Game</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Puzzle Master</h3>
+                    <p>Logic-based mobile puzzle game with 100+ levels</p>
+                    <div class="project-tags">
+                        <span class="tag">Unity</span>
+                        <span class="tag">Mobile</span>
+                        <span class="tag">UI/UX</span>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in">
-                <img src="/api/placeholder/400/250" alt="Project 4" class="project-image">
-                <div class="project-content">
-                    <h3>Blockchain Smart Contract</h3>
-                    <p>Implemented a secure and efficient smart contract system for decentralized applications.</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Solidity</span>
-                        <span class="tech-tag">Ethereum</span>
-                        <span class="tech-tag">Web3</span>
+            <!-- Web Applications -->
+            <div class="project-card web" onclick="showModal('web1')">
+                <div class="project-image">
+                    <div class="placeholder-image">Web App</div>
+                    <div class="project-overlay">
+                        <span class="project-type">Full Stack</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Task Management System</h3>
+                    <p>Collaborative project management tool with real-time updates</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card web" onclick="showModal('web2')">
+                <div class="project-image">
+                    <div class="placeholder-image">E-commerce</div>
+                    <div class="project-overlay">
+                        <span class="project-type">E-commerce</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Online Store Platform</h3>
+                    <p>Modern e-commerce solution with secure payment processing</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Stripe</span>
+                        <span class="tag">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creative Code Projects -->
+            <div class="project-card creative" onclick="showModal('creative1')">
+                <div class="project-image">
+                    <div class="placeholder-image">Generative Art</div>
+                    <div class="project-overlay">
+                        <span class="project-type">Interactive Art</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Generative Visualizer</h3>
+                    <p>Real-time audio-reactive generative art installation</p>
+                    <div class="project-tags">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Canvas</span>
+                        <span class="tag">WebAudio</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card creative" onclick="showModal('creative2')">
+                <div class="project-image">
+                    <div class="placeholder-image">Data Viz</div>
+                    <div class="project-overlay">
+                        <span class="project-type">Data Visualization</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Interactive Data Story</h3>
+                    <p>Immersive data visualization exploring climate patterns</p>
+                    <div class="project-tags">
+                        <span class="tag">D3.js</span>
+                        <span class="tag">SVG</span>
+                        <span class="tag">Animation</span>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Modal System -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-content" id="modalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
-
-                </div>

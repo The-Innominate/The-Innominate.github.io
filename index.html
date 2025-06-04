@@ -3,32 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio | Cameron Sadusky</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Your Name - Portfolio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <a href="index.html" class="navbar-logo">Cameron S.</a>
-            <div class="navbar-links">
-                <a href="index.html">Home</a>
-                <a href="portfolio.html">Portfolio</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
+    <div class="page-transition"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>YourName</h1>
             </div>
-        </div>
-    </nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" class="social-link" target="_blank">
+                    <span class="icon">🐙</span>
+                </a>
+                <a href="https://yourusername.itch.io" class="social-link" target="_blank">
+                    <span class="icon">🎮</span>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank">
+                    <span class="icon">💼</span>
+                </a>
+            </div>
+        </nav>
+    </header>
 
-    <main class="container">
-        <section class="home-hero">
-            <h1 class="fade-in">Cameron Sadusky</h1>
-            <h2 class="fade-in">Software Engineer | Game Developer</h2>
-            <p class="fade-in">
-                Crafting innovative software solutions and immersive game experiences 
-                that push the boundaries of technology and creativity.
-            </p>
+    <main class="main">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="hero-title">Creative Developer</h2>
+                    <p class="hero-subtitle">Crafting interactive experiences through code</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showModal('welcome')">Explore My Work</button>
+                        <button class="btn btn-secondary" onclick="navigateToPage('contact.html')">Get In Touch</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-elements">
+                        <div class="element element-1"></div>
+                        <div class="element element-2"></div>
+                        <div class="element element-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-work">
+            <h3 class="section-title">Featured Projects</h3>
+            <div class="work-grid">
+                <div class="work-card" onclick="showModal('project1')">
+                    <div class="work-image">
+                        <div class="placeholder-image">Game Project</div>
+                    </div>
+                    <h4>Interactive Game Title</h4>
+                    <p>Brief description of your game project</p>
+                </div>
+                <div class="work-card" onclick="showModal('project2')">
+                    <div class="work-image">
+                        <div class="placeholder-image">Web App</div>
+                    </div>
+                    <h4>Web Application</h4>
+                    <p>Full-stack application showcase</p>
+                </div>
+                <div class="work-card" onclick="showModal('project3')">
+                    <div class="work-image">
+                        <div class="placeholder-image">Creative Code</div>
+                    </div>
+                    <h4>Creative Coding</h4>
+                    <p>Artistic programming experiment</p>
+                </div>
+            </div>
         </section>
     </main>
+
+    <!-- Modal System -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-content" id="modalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
