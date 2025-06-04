@@ -78,27 +78,25 @@ class PortfolioApp {
       if (this.isTransitioning) return;
       this.isTransitioning = true;
   
-      const currentPageEl = document.querySelector('.page.active');
-      const targetPageEl = document.getElementById(pageId);
+      // Wave transition (canvas)
+      animateWaveTransition('up', () => {
+        const currentPageEl = document.querySelector('.page.active');
+        const targetPageEl = document.getElementById(pageId);
   
-      if (!targetPageEl) {
-        this.isTransitioning = false;
-        return;
-      }
+        if (!targetPageEl) {
+          this.isTransitioning = false;
+          return;
+        }
   
-      // Fade out current page
-      if (currentPageEl) {
-        currentPageEl.style.transform = 'translateY(-30px)';
-        currentPageEl.style.opacity = '0';
-        
-        setTimeout(() => {
+        // Fade out current page
+        if (currentPageEl) {
           currentPageEl.classList.remove('active');
           currentPageEl.style.display = 'none';
-          this.showNewPage(targetPageEl, pageId);
-        }, 300);
-      } else {
+        }
         this.showNewPage(targetPageEl, pageId);
-      }
+      }, () => {
+        this.isTransitioning = false;
+      });
     }
   
     showNewPage(pageEl, pageId) {
@@ -119,6 +117,8 @@ class PortfolioApp {
         
         // Animate page elements
         this.animatePageElements(pageEl);
+        // Smooth scroll to top after page transition
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 50);
     }
   
@@ -317,6 +317,27 @@ class PortfolioApp {
           }
         }
       });
+  
+      // Contact CTA buttons
+      document.addEventListener('click', (e) => {
+        // Start a Project button
+        if (e.target && e.target.id === 'start-project-btn') {
+          const form = document.getElementById('contact-form');
+          if (form) {
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            form.querySelector('input, textarea, select').focus();
+          }
+        }
+        // View Resume button
+        if (e.target && e.target.id === 'resume-btn') {
+          const link = document.createElement('a');
+          link.href = 'UpdatedResume.pdf';
+          link.download = 'Cameron_Sadusky_Resume.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
     }
   
     updateActiveNav(activeLink) {
@@ -447,7 +468,156 @@ class PortfolioApp {
   // Initialize the portfolio when DOM is loaded
   document.addEventListener('DOMContentLoaded', () => {
     new PortfolioApp();
+
+    // Down arrow scroll
+    const downArrow = document.getElementById('down-arrow');
+    if (downArrow) {
+      downArrow.addEventListener('click', () => {
+        const featured = document.querySelector('.featured-work');
+        if (featured) {
+          featured.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    // Starfield Canvas
+    const canvas = document.getElementById('starfield');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      let w = window.innerWidth;
+      let h = window.innerHeight;
+      const STAR_COUNT = Math.floor((w * h) / 1800);
+      function resize() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.2 + 0.2,
+            tw: Math.random() * Math.PI * 2,
+            speed: 0.05 + Math.random() * 0.08,
+            drift: (Math.random() - 0.5) * 0.04
+          });
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (let star of stars) {
+          // Twinkle
+          const twinkle = 0.7 + 0.5 * Math.sin(star.tw);
+          ctx.globalAlpha = twinkle;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff8e1';
+          ctx.shadowColor = '#ffb86b';
+          ctx.shadowBlur = 8 * twinkle;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          // Animate
+          star.tw += star.speed * 0.08;
+          star.x += star.drift;
+          if (star.x < 0) star.x = w;
+          if (star.x > w) star.x = 0;
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(draw);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    }
   });
   
   // Export for potential external use
   window.PortfolioApp = PortfolioApp;
+
+  // Perlin noise implementation (simple, inline)
+  function perlin(x) {
+    // Simple 1D Perlin noise (not true Perlin, but good for waves)
+    return Math.sin(x) * 0.5 + Math.sin(x * 0.5 + 10) * 0.25 + Math.sin(x * 0.2 + 100) * 0.15;
+  }
+
+  function animateWaveTransition(direction = 'up', onMid, onDone) {
+    const canvas = document.getElementById('waveCanvas');
+    if (!canvas) { if (onMid) onMid(); if (onDone) onDone(); return; }
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+    let progress = 0;
+    let animating = true;
+    let midTriggered = false;
+    const duration = 1.1; // seconds
+    const fps = 60;
+    const totalFrames = Math.round(duration * fps);
+    let frame = 0;
+    function drawWave(yBase, amp, color, offset, foam=false) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      for (let x = 0; x <= w; x += 4) {
+        let noise = perlin((x * 0.012) + offset + frame * 0.04) * amp;
+        let y = yBase + noise;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.globalAlpha = foam ? 0.7 : 0.95;
+      ctx.fillStyle = color;
+      ctx.shadowColor = foam ? '#fff' : color;
+      ctx.shadowBlur = foam ? 18 : 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.restore();
+    }
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      // Animate progress: 0 (bottom) to 1 (top)
+      progress = Math.min(1, frame / totalFrames);
+      // Easing for splash effect
+      let ease = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+      let yBase = h - (h * 1.1 * ease);
+      // Draw multiple layers for depth
+      drawWave(yBase + 30, 32, '#023436', 0.2);
+      drawWave(yBase + 10, 24, '#03B5AA', 0.5);
+      drawWave(yBase, 18, '#C2AFF0', 1.1);
+      drawWave(yBase - 8, 10, '#fff', 2.2, true); // foam
+      // Trigger mid callback when wave covers page
+      if (!midTriggered && progress > 0.45) {
+        midTriggered = true;
+        if (onMid) onMid();
+      }
+      if (progress < 1) {
+        frame++;
+        requestAnimationFrame(animate);
+      } else {
+        // Animate wave off (reverse)
+        let frameOut = 0;
+        function animateOut() {
+          ctx.clearRect(0, 0, w, h);
+          let outProgress = Math.min(1, frameOut / totalFrames);
+          let outEase = 1 - Math.pow(1 - outProgress, 2);
+          let yBaseOut = h * (1 - outEase) - 40 * outEase;
+          drawWave(yBaseOut + 30, 32, '#023436', 0.2 + 1.5);
+          drawWave(yBaseOut + 10, 24, '#03B5AA', 0.5 + 1.5);
+          drawWave(yBaseOut, 18, '#C2AFF0', 1.1 + 1.5);
+          drawWave(yBaseOut - 8, 10, '#fff', 2.2 + 1.5, true);
+          if (outProgress < 1) {
+            frameOut++;
+            requestAnimationFrame(animateOut);
+          } else {
+            ctx.clearRect(0, 0, w, h);
+            if (onDone) onDone();
+          }
+        }
+        setTimeout(animateOut, 120);
+      }
+    }
+    animate();
+  }
