@@ -22,14 +22,20 @@ const About: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="about-intro"
             >
-              I'm a passionate developer who bridges the gap between creative vision and technical execution. 
-              With experience spanning game development, web applications, and interactive experiences, 
-              I bring ideas to life through code.
+              I'm Cameron Sadusky, a Game Developer & Software Engineer who thrives in environments that challenge the conventional and invite experimentation. I'm driven by a love of elegant systems, the thrill of turning chaos into clarity, and the joy of crafting meaningful player experiences.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="about-description"
+            >
+              Equal parts builder and storyteller, I treat every problem as an opportunity to level up the user's experience. My approach is strategic and methodical, yet deeply intuitive – sometimes even brute-forced, as I balance precision with imagination. I'm not afraid to get caught up in perfecting a task, because in the end, it's all about creating something that brings joy to others.
             </motion.p>
           </AboutText>
           <AboutVisual>
             <ProfileArea>
-              <ProfilePlaceholder>Your Photo</ProfilePlaceholder>
+              <ProfileImage src="/project_images/profilePicture.png" alt="Cameron Sadusky" />
             </ProfileArea>
           </AboutVisual>
         </AboutContent>
@@ -38,42 +44,42 @@ const About: React.FC = () => {
       <SectionDivider />
 
       <SkillsSection>
-        <SectionTitle>Technical Skills</SectionTitle>
+        <SectionTitle>Technical Expertise</SectionTitle>
         <SkillsGrid>
-          <SkillCategory>
-            <h4>Frontend Development</h4>
-            <SkillTags>
-              <SkillTag>JavaScript</SkillTag>
-              <SkillTag>React</SkillTag>
-              <SkillTag>CSS/SCSS</SkillTag>
-              <SkillTag>HTML5</SkillTag>
-            </SkillTags>
-          </SkillCategory>
-          <SkillCategory>
-            <h4>Backend & Databases</h4>
-            <SkillTags>
-              <SkillTag>Node.js</SkillTag>
-              <SkillTag>Python</SkillTag>
-              <SkillTag>PostgreSQL</SkillTag>
-              <SkillTag>MongoDB</SkillTag>
-            </SkillTags>
-          </SkillCategory>
           <SkillCategory>
             <h4>Game Development</h4>
             <SkillTags>
-              <SkillTag>Unity</SkillTag>
+              <SkillTag>C++</SkillTag>
               <SkillTag>C#</SkillTag>
-              <SkillTag>Game Design</SkillTag>
-              <SkillTag>3D Modeling</SkillTag>
+              <SkillTag>Unity</SkillTag>
+              <SkillTag>Gameplay Mechanics</SkillTag>
             </SkillTags>
           </SkillCategory>
           <SkillCategory>
-            <h4>Tools & Technologies</h4>
+            <h4>Web Development</h4>
             <SkillTags>
-              <SkillTag>Git</SkillTag>
-              <SkillTag>Docker</SkillTag>
-              <SkillTag>AWS</SkillTag>
-              <SkillTag>Figma</SkillTag>
+              <SkillTag>TypeScript</SkillTag>
+              <SkillTag>React</SkillTag>
+              <SkillTag>UI/UX</SkillTag>
+              <SkillTag>Frontend</SkillTag>
+            </SkillTags>
+          </SkillCategory>
+          <SkillCategory>
+            <h4>Systems & Architecture</h4>
+            <SkillTags>
+              <SkillTag>Backend Systems</SkillTag>
+              <SkillTag>Algorithms</SkillTag>
+              <SkillTag>Systems Thinking</SkillTag>
+              <SkillTag>Architecture</SkillTag>
+            </SkillTags>
+          </SkillCategory>
+          <SkillCategory>
+            <h4>Special Focus</h4>
+            <SkillTags>
+              <SkillTag>AI Development</SkillTag>
+              <SkillTag>Horror Games</SkillTag>
+              <SkillTag>Experimental UI</SkillTag>
+              <SkillTag>Player Experience</SkillTag>
             </SkillTags>
           </SkillCategory>
         </SkillsGrid>
@@ -87,29 +93,29 @@ const About: React.FC = () => {
           <TimelineItem>
             <TimelineMarker />
             <TimelineContent>
-              <h4>Started Coding</h4>
-              <p>Discovered programming through game development</p>
+              <h4>Building Worlds</h4>
+              <p>Creating immersive game experiences and interactive systems</p>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineMarker />
             <TimelineContent>
-              <h4>First Web Project</h4>
-              <p>Built my first interactive web application</p>
+              <h4>Technical Innovation</h4>
+              <p>Developing elegant solutions to complex problems</p>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineMarker />
             <TimelineContent>
-              <h4>Professional Development</h4>
-              <p>Expanded into full-stack development</p>
+              <h4>Future Vision</h4>
+              <p>Working towards creating the next generation of immersive, intelligent games</p>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineMarker />
             <TimelineContent>
               <h4>Current Focus</h4>
-              <p>Creating immersive digital experiences</p>
+              <p>Developing AI-based horror games and contributing to innovative game studios</p>
             </TimelineContent>
           </TimelineItem>
         </Timeline>
@@ -151,6 +157,13 @@ const AboutText = styled.div`
     line-height: 1.8;
     color: ${({ theme }) => theme.colors.textSecondary};
   }
+
+  .about-description {
+    font-size: ${({ theme }) => theme.typography.fontSize.body};
+    line-height: 1.8;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    margin-top: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const AboutVisual = styled.div`
@@ -163,16 +176,18 @@ const ProfileArea = styled.div`
   margin: 0 auto;
 `;
 
-const ProfilePlaceholder = styled.div`
+const ProfileImage = styled.img`
   width: 100%;
   aspect-ratio: 1;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.secondary});
+  object-fit: cover;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  border: 4px solid ${({ theme }) => theme.colors.secondary};
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
 const SectionDivider = styled.hr`
@@ -283,6 +298,13 @@ const TimelineContent = styled.div`
   p {
     color: ${({ theme }) => theme.colors.textSecondary};
   }
+`;
+
+const AboutDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.body};
+  line-height: 1.8;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;
 
 export default About; 

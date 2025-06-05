@@ -15,18 +15,89 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Portfolio Website",
-    description: "A modern, responsive portfolio website built with React, TypeScript, and styled-components. Features smooth animations, page transitions, and a beautiful starfield background effect.",
-    technologies: ["React", "TypeScript", "Styled Components", "Framer Motion", "Vite"],
-    imageUrl: "/images/portfolio-preview.png",
+    title: "Space Golf",
+    description: "A physics-based mobile game that blends the precision of mini-golf with the chaos of orbital mechanics. Players launch golf balls across low-gravity planetoids, using gravitational slingshots and black hole hazards to reach the goal.",
+    technologies: ["Unity", "C#", "Physics", "Mobile Development"],
+    imageUrl: "/project_images/spaceGolf.png",
+    features: [
+      "Custom physics handling for space-based movement",
+      "Procedural level tools and modular hazard design",
+      "Fully responsive UI and animation-driven feedback",
+      "State and Factory design patterns for power-ups and hazards",
+      "Orbital mechanics and gravitational slingshots"
+    ]
+  },
+  {
+    title: "Warmonger45",
+    description: "A tactical arena brawler where players fight for survival in hostile environments filled with enemies and hazards. The project emphasizes spatial combat design, reactive movement mechanics, and tight moment-to-moment gameplay.",
+    technologies: ["Unity", "C#", "Level Design", "Environmental Design", "Gameplay Programming"],
+    imageUrl: "/project_images/warmonger45.png",
+    features: [
+      "Led level and environmental design for all game arenas",
+      "Implemented swimming mechanics with water detection and buoyancy",
+      "Developed player movement and hit detection systems",
+      "Created gameplay clarity through strategic lighting and layout",
+      "Integrated art assets with combat zones and mechanics"
+    ]
+  },
+  {
+    title: "Satori",
+    description: "A data-driven platform that analyzes and visualizes prediction accuracy over time—originally built for Bitcoin price forecasting but expandable to any prediction model. The system ingests, scores, and displays real-time and historical streams from multiple sources, letting users evaluate algorithmic performance at a glance.",
+    technologies: ["Python", "FastAPI", "PostgreSQL", "TypeScript", "React", "AnyChart", "Docker"],
+    imageUrl: "/project_images/satori.png",
+    features: [
+      "Built aligned prediction vs. observation API endpoints using FastAPI",
+      "Implemented a logarithmic scoring algorithm for real-time predictor ranking",
+      "Developed advanced AnyChart visualizations with dynamic series and annotations",
+      "Created backend logic for error calculations and stream synchronization",
+      "Managed frontend state and rendering with React hooks and TypeScript",
+      "Optimized PostgreSQL queries for efficient time-bucketed data access",
+      "Containerized development environment with Docker (despite its occasional gaslighting)"
+    ]
+  },
+  {
+    title: "QLO: Quest of the Lonely Octopus",
+    description: "A narrative-driven puzzle platformer starring a lonely octopus on a quest through intricate underwater worlds. Designed and built from the ground up, this project blends storytelling, puzzle-solving, and physics-based gameplay into a cohesive experience. Though not hosted live, the full source and demo builds are available on GitHub.",
+    technologies: ["Unity", "C#", "Game Design", "Level Design", "Animation"],
+    imageUrl: "/project_images/qlo.png",
+    githubUrl: "https://github.com/The-Innominate/QLO",
+    features: [
+      "Full solo development from concept to polished prototype",
+      "Designed complex puzzle levels with environmental storytelling",
+      "Implemented smooth physics-based player movement and controls",
+      "Integrated custom animations and sound cues for immersion",
+      "Delivered well-documented codebase hosted publicly on GitHub"
+    ]
+  },
+  {
+    title: "Algorithm & Data Structure Projects",
+    description: "A collection of algorithm and data structure implementations developed through coursework and personal projects. This body of work demonstrates deep understanding of fundamental computer science concepts, including graph algorithms, trees, linked lists, stacks, queues, and search/sort techniques.",
+    technologies: ["C++", "C#", "Python", "Data Structures", "Algorithms"],
+    imageUrl: "/project_images/algorithms.png",
+    githubUrl: "https://github.com/The-Innominate/algorithm-implementations",
+    features: [
+      "Implemented graph algorithms (Prim's MST, Dijkstra's shortest path)",
+      "Developed generic data structures: BSTs, linked lists, stacks, queues",
+      "Emphasized clean code, modular design, and comprehensive unit testing",
+      "Documented Big-O complexity for each implementation",
+      "Demonstrated problem-solving skills applicable to both academic and real-world scenarios"
+    ]
+  },
+  {
+    title: "Personal Portfolio",
+    description: "A game-like portfolio website that blends space and sea aesthetics to showcase my work and personality. Built as both a professional showcase and an experiment in AI-assisted development, this project demonstrates modern web development practices while exploring the future of human-AI collaboration.",
+    technologies: ["React", "TypeScript", "Framer Motion", "Styled Components", "Vite", "Vercel", "Cursor"],
+    imageUrl: "/project_images/portfolio.png",
     githubUrl: "https://github.com/The-Innominate/The-Innominate.github.io",
     liveUrl: "https://the-innominate.github.io",
     features: [
-      "Responsive design that works on all devices",
-      "Smooth page transitions with wave effects",
-      "Interactive starfield background animation",
-      "Modern UI with glassmorphism effects",
-      "Project showcase with detailed modals"
+      "Designed with a game-like aesthetic blending space and sea themes",
+      "Built reusable, animated components using React and Framer Motion",
+      "Implemented responsive layout with adaptive typography and grid design",
+      "Integrated light/dark modes with custom themes and transitions",
+      "Deployed with Vercel CI/CD pipeline for instant updates",
+      "Leveraged AI tools (Cursor, Claude) for rapid prototyping and development",
+      "Structured with clean, maintainable code and component isolation"
     ]
   },
   // Add more projects here
