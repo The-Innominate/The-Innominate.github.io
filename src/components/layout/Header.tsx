@@ -71,7 +71,7 @@ const Header: React.FC = () => {
             </svg>
           </SocialLink>
           <SocialLink
-            href="https://linkedin.com/in/cameron-sadusky"
+            href="https://www.linkedin.com/in/cameron-sadusky-960b85230"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.1, rotate: 5 }}

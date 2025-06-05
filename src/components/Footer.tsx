@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
           <SocialLink href="https://github.com/The-Innominate" target="_blank" rel="noopener noreferrer">
             GitHub
           </SocialLink>
-          <SocialLink href="https://linkedin.com/in/cameron-sadusky" target="_blank" rel="noopener noreferrer">
+          <SocialLink href="https://www.linkedin.com/in/cameron-sadusky-960b85230" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </SocialLink>
         </SocialLinks>
