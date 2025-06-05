@@ -22,6 +22,12 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
     
     lastPathRef.current = location.pathname;
     setShowWave(true);
+    
+    // Smooth scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }, [location.pathname]);
 
   useEffect(() => {
@@ -47,9 +53,9 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
             highlight: '#C2AFF0',
             foam: '#ffffff'
           }}
-          speed={0.9}
-          intensity={1.4}
-          translucency={0.85}
+          speed={2.2}
+          intensity={1.6}
+          translucency={0.92}
         />
       )}
     </TransitionContainer>

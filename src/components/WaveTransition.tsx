@@ -23,9 +23,10 @@ const WaveCanvas = styled.canvas`
   height: 100%;
   z-index: 1000;
   pointer-events: none;
+  mix-blend-mode: screen;
 `;
 
-// Improved Perlin noise implementation
+// Enhanced Perlin noise implementation with multiple octaves
 const noise = (() => {
   const p = new Array(512);
   const permutation = [
@@ -52,18 +53,33 @@ const noise = (() => {
     return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
   };
 
-  return (x: number, y: number) => {
-    const X = Math.floor(x) & 255;
-    const Y = Math.floor(y) & 255;
-    x -= Math.floor(x);
-    y -= Math.floor(y);
-    const u = fade(x);
-    const v = fade(y);
-    const A = p[X] + Y;
-    const B = p[X + 1] + Y;
-    return lerp(v, lerp(u, grad(p[A], x, y), grad(p[B], x - 1, y)),
-      lerp(u, grad(p[A + 1], x, y - 1), grad(p[B + 1], x - 1, y - 1)));
+  const octaveNoise = (x: number, y: number, octaves: number, persistence: number) => {
+    let total = 0;
+    let frequency = 1;
+    let amplitude = 1;
+    let maxValue = 0;
+
+    for (let i = 0; i < octaves; i++) {
+      const X = Math.floor(x * frequency) & 255;
+      const Y = Math.floor(y * frequency) & 255;
+      const xf = (x * frequency) - Math.floor(x * frequency);
+      const yf = (y * frequency) - Math.floor(y * frequency);
+      const u = fade(xf);
+      const v = fade(yf);
+      const A = p[X] + Y;
+      const B = p[X + 1] + Y;
+      total += lerp(v, lerp(u, grad(p[A], xf, yf), grad(p[B], xf - 1, yf)),
+        lerp(u, grad(p[A + 1], xf, yf - 1), grad(p[B + 1], xf - 1, yf - 1))) * amplitude;
+      maxValue += amplitude;
+      amplitude *= persistence;
+      frequency *= 2;
+    }
+
+    return total / maxValue;
   };
+
+  return (x: number, y: number, octaves = 4, persistence = 0.5) => 
+    octaveNoise(x, y, octaves, persistence);
 })();
 
 const WaveTransition: React.FC<WaveTransitionProps> = ({
@@ -83,6 +99,7 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
   const animationRef = useRef<number>();
   const progressRef = useRef(0);
   const mountedRef = useRef(false);
+  const isExitingRef = useRef(false);
 
   const drawWave = useCallback((
     ctx: CanvasRenderingContext2D,
@@ -99,11 +116,14 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     ctx.beginPath();
     ctx.moveTo(0, height);
 
+    // Enhanced wave generation with multiple noise layers
     for (let x = 0; x <= width; x += 2) {
-      const noise1 = noise(x * 0.01 + offset, time * 0.5) * amplitude;
-      const noise2 = noise(x * 0.02 + offset * 2, time * 0.3) * (amplitude * 0.5);
-      const noise3 = noise(x * 0.005 + offset * 0.5, time * 0.7) * (amplitude * 0.25);
-      const combinedNoise = noise1 + noise2 + noise3;
+      const noise1 = noise(x * 0.01 + offset, time * 0.5, 4, 0.5) * amplitude;
+      const noise2 = noise(x * 0.02 + offset * 2, time * 0.3, 3, 0.6) * (amplitude * 0.6);
+      const noise3 = noise(x * 0.005 + offset * 0.5, time * 0.7, 2, 0.7) * (amplitude * 0.3);
+      const noise4 = noise(x * 0.03 + offset * 1.5, time * 0.4, 3, 0.4) * (amplitude * 0.4);
+      const noise5 = noise(x * 0.015 + offset * 0.8, time * 0.6, 2, 0.5) * (amplitude * 0.2);
+      const combinedNoise = noise1 + noise2 + noise3 + noise4 + noise5;
       
       const y = yBase + combinedNoise;
       ctx.lineTo(x, y);
@@ -113,20 +133,38 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     ctx.closePath();
 
     if (isFoam) {
+      // Enhanced foam effect with multiple gradients
       const gradient = ctx.createLinearGradient(0, yBase - amplitude, 0, yBase + amplitude);
       gradient.addColorStop(0, `rgba(255, 255, 255, ${translucency})`);
+      gradient.addColorStop(0.3, `rgba(255, 255, 255, ${translucency * 0.8})`);
+      gradient.addColorStop(0.6, `rgba(255, 255, 255, ${translucency * 0.4})`);
       gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
       ctx.fillStyle = gradient;
+
+      // Add emissive glow effect
+      ctx.shadowColor = colors.foam;
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.globalCompositeOperation = 'screen';
     } else {
+      // Enhanced water gradient with depth
       const gradient = ctx.createLinearGradient(0, yBase - amplitude, 0, yBase + amplitude);
       gradient.addColorStop(0, color);
+      gradient.addColorStop(0.3, `${color}${Math.round(translucency * 255).toString(16).padStart(2, '0')}`);
+      gradient.addColorStop(0.7, `${colors.deep}${Math.round(translucency * 0.7 * 255).toString(16).padStart(2, '0')}`);
       gradient.addColorStop(1, colors.deep);
       ctx.fillStyle = gradient;
+
+      // Subtle glow for water layers
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 15;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.globalCompositeOperation = 'source-over';
     }
 
-    ctx.shadowColor = isFoam ? colors.foam : color;
-    ctx.shadowBlur = isFoam ? 20 : 10;
-    ctx.globalAlpha = isFoam ? translucency : 0.9;
+    ctx.globalAlpha = isFoam ? translucency : translucency * 0.9;
     ctx.fill();
     ctx.restore();
   }, [colors, speed, translucency]);
@@ -143,27 +181,43 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
     const { width, height } = canvas;
     ctx.clearRect(0, 0, width, height);
 
-    const duration = 1.4;
+    // Different durations for entrance and exit
+    const duration = isExitingRef.current ? 0.3 : 0.8;
     const fps = 60;
     const totalFrames = Math.round(duration * fps);
     progressRef.current = Math.min(1, progressRef.current + 1 / totalFrames);
 
-    const ease = progressRef.current < 0.5
-      ? 4 * progressRef.current * progressRef.current * progressRef.current
-      : 1 - Math.pow(-2 * progressRef.current + 2, 3) / 2;
+    // Different easing for entrance and exit
+    const ease = isExitingRef.current
+      ? progressRef.current
+      : progressRef.current < 0.5
+        ? 4 * progressRef.current * progressRef.current * progressRef.current
+        : 1 - Math.pow(-2 * progressRef.current + 2, 3) / 2;
 
-    const yBase = height - (height * 1.2 * ease);
+    let yBase;
+    if (isExitingRef.current) {
+      yBase = height * 1.2 * ease;
+    } else {
+      yBase = height - (height * 1.2 * ease);
+    }
 
-    drawWave(ctx, yBase + 45, 35 * intensity, colors.deep, 0.15);
-    drawWave(ctx, yBase + 25, 28 * intensity, colors.surface, 0.4);
-    drawWave(ctx, yBase + 12, 20 * intensity, colors.highlight, 0.9);
-    drawWave(ctx, yBase, 15 * intensity, colors.foam, 1.8, true);
+    // Draw waves with enhanced parameters
+    drawWave(ctx, yBase + 50, 40 * intensity, colors.deep, 0.12);
+    drawWave(ctx, yBase + 30, 32 * intensity, colors.surface, 0.35);
+    drawWave(ctx, yBase + 15, 25 * intensity, colors.highlight, 0.8);
+    drawWave(ctx, yBase, 20 * intensity, colors.foam, 1.6, true);
 
     if (progressRef.current < 1) {
       animationRef.current = requestAnimationFrame(animate);
     } else {
-      ctx.clearRect(0, 0, width, height);
-      onDone?.();
+      if (isExitingRef.current) {
+        ctx.clearRect(0, 0, width, height);
+        onDone?.();
+      } else {
+        isExitingRef.current = true;
+        progressRef.current = 0;
+        animationRef.current = requestAnimationFrame(animate);
+      }
     }
   }, [colors, intensity, onDone, drawWave]);
 
@@ -182,6 +236,7 @@ const WaveTransition: React.FC<WaveTransitionProps> = ({
 
     if (isOpen) {
       progressRef.current = 0;
+      isExitingRef.current = false;
       animate();
     }
 
