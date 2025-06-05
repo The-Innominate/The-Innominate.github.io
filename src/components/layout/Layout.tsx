@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
-import Footer from './Footer';
-import Starfield from '../animations/Starfield';
+import Footer from '../Footer';
+import Starfield from '../Starfield';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,10 +27,7 @@ const LayoutContainer = styled.div`
 
 const Main = styled.main`
   flex: 1;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding-top: 80px; // Adjust based on your header height
 `;
 
 export default Layout; 

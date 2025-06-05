@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="800" height="600" fill="#1a1a2e"/>
+    
+    <!-- Binary Tree Structure -->
+    <g stroke="#03B5AA" stroke-width="2" fill="none">
+        <!-- Tree Nodes -->
+        <circle cx="400" cy="100" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="300" cy="200" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="500" cy="200" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="250" cy="300" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="350" cy="300" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="450" cy="300" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        <circle cx="550" cy="300" r="20" fill="#03B5AA" fill-opacity="0.2"/>
+        
+        <!-- Tree Connections -->
+        <line x1="400" y1="120" x2="300" y2="180"/>
+        <line x1="400" y1="120" x2="500" y2="180"/>
+        <line x1="300" y1="220" x2="250" y2="280"/>
+        <line x1="300" y1="220" x2="350" y2="280"/>
+        <line x1="500" y1="220" x2="450" y2="280"/>
+        <line x1="500" y1="220" x2="550" y2="280"/>
+    </g>
+    
+    <!-- Graph Structure -->
+    <g stroke="#C2AFF0" stroke-width="2" fill="none">
+        <!-- Graph Nodes -->
+        <circle cx="200" cy="450" r="15" fill="#C2AFF0" fill-opacity="0.2"/>
+        <circle cx="300" cy="450" r="15" fill="#C2AFF0" fill-opacity="0.2"/>
+        <circle cx="400" cy="450" r="15" fill="#C2AFF0" fill-opacity="0.2"/>
+        <circle cx="500" cy="450" r="15" fill="#C2AFF0" fill-opacity="0.2"/>
+        <circle cx="600" cy="450" r="15" fill="#C2AFF0" fill-opacity="0.2"/>
+        
+        <!-- Graph Connections -->
+        <line x1="215" y1="450" x2="285" y2="450"/>
+        <line x1="315" y1="450" x2="385" y2="450"/>
+        <line x1="415" y1="450" x2="485" y2="450"/>
+        <line x1="515" y1="450" x2="585" y2="450"/>
+        <line x1="300" y1="435" x2="400" y2="435"/>
+        <line x1="400" y1="435" x2="500" y2="435"/>
+    </g>
+    
+    <!-- Algorithm Symbols -->
+    <g fill="#ffffff" fill-opacity="0.1">
+        <rect x="650" y="100" width="100" height="20" rx="4"/>
+        <rect x="650" y="130" width="80" height="20" rx="4"/>
+        <rect x="650" y="160" width="120" height="20" rx="4"/>
+        <rect x="650" y="190" width="90" height="20" rx="4"/>
+    </g>
+</svg> 

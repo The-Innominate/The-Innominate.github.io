@@ -300,11 +300,4 @@ const TimelineContent = styled.div`
   }
 `;
 
-const AboutDescription = styled.p`
-  font-size: ${({ theme }) => theme.typography.fontSize.body};
-  line-height: 1.8;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-top: ${({ theme }) => theme.spacing.md};
-`;
-
 export default About; 
